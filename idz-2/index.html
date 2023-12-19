@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>IDZ. 2</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <h1>Caesar Cipher Encoder/Decoder</h1>
+
+    <label for="inputText">Input Text:</label>
+    <input type="text" id="inputText" placeholder="Enter text">
+
+    <label for="key">Key:</label>
+    <select id="key">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <button onclick="encode()">Encode</button>
+    <button onclick="decode()">Decode</button>
+
+    <div id="output"></div>
+</body>
+</html>
