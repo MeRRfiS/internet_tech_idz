@@ -9,21 +9,6 @@ body {
     text-align: center;
 }
 
-.container {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-}
-
-.header {
-    background-color: #3498db;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    font-size: 24px;
-}
-
 .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -56,17 +41,3 @@ body {
     font-size: 18px;
     color: #333;
 }
-
-.reset-button {
-    background-color: #2ecc71;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-    .reset-button:hover {
-        background-color: #27ae60;
-    }
