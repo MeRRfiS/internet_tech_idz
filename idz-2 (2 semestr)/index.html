@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDZ-2</title>
+</head>
+<body>
+    <h1>IDZ-2</h1>
+
+    <h2>1: Дохід з прокату</h2>
+    <label for="date_sum">Оберіть дату:</label>
+    <input type="date" id="date_sum" name="date_sum" value="2020-01-01">
+    <br><br>
+    <button id="sum">Отримати результат</button>
+    <br>
+    <div id="result1"></div>
+    <br>
+
+    <h2>2: Автомобілі обраного виробника</h2>
+    <label for="vendors">Оберіть значення:</label>
+    <select id="vendors" name="vendors"></select>
+    <br><br>
+    <button id="car_by_vendor">Отримати результат</button>
+    <br>
+    <div id="result2"></div>
+    <br>
+
+    <h2>3: Вільні автомобілі</h2>
+    <label for="date_free">Оберіть дату:</label>
+    <input type="date" id="date_free" name="date_free" value="2020-01-01">
+    <label for="time_free">Оберіть час:</label>
+    <input type="time" id="time_free" name="time_free" value="00:00">
+    <br><br>
+    <button id="free_car">Отримати результат</button>
+    <br>
+    <div id="result3"></div>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        var socket = io();
+
+        socket.emit('get_vendors');
+        socket.on('vendors_list', function (vendors) {
+            const select = document.getElementById("vendors");
+            vendors.forEach((vendor) => {
+                const option = document.createElement("option");
+                option.value = vendor.ID_Vendors;
+                option.textContent = vendor.Name;
+                select.appendChild(option);
+            });
+        });
+
+        $('#sum').click(function () {
+            socket.emit('sum_query', $('#date_sum').val());
+        });
+
+        socket.on('sum_result', function (result) {
+            $('#result1').append().html(result);
+        });
+
+        $('#car_by_vendor').click(function(){
+            socket.emit('car_by_vendor', $('#vendors :selected').val());
+            });
+
+        socket.on('car_list', function (cars) {
+            let output = "<table border='1'>";
+            output += "<tr><th>Car ID</th><th>Name</th><th>Release Date</th><th>Race</th><th>State</th><th>Vendors</th><th>Price</th></tr>";
+
+            cars.forEach((car) => {
+                output += "<tr>";
+                output += `<td>${car.ID_Cars}</td>`;
+                output += `<td>${car.Name}</td>`;
+                output += `<td>${car.Release_date}</td>`;
+                output += `<td>${car.Race}</td>`;
+                output += `<td>${car["State(new,old)"]}</td>`;
+                output += `<td>${car.FID_Vendors}</td>`;
+                output += `<td>${car.Price}</td>`;
+                output += "</tr>";
+            });
+
+            output += "</table>";
+            $('#result2').append().html(output);
+        });
+
+
+        $('#free_car').click(function () {
+            socket.emit('free_car_query', $('#date_free').val(), $('#time_free').val());
+        });
+
+        socket.on('free_car_result', function (cars) {
+            let output = "<table border='1'>";
+            output += "<tr><th>Car ID</th><th>Name</th><th>Release Date</th><th>Race</th><th>State</th><th>Vendors</th><th>Price</th></tr>";
+
+            cars.forEach((car) => {
+                output += "<tr>";
+                output += `<td>${car.ID_Cars}</td>`;
+                output += `<td>${car.Name}</td>`;
+                output += `<td>${car.Release_date}</td>`;
+                output += `<td>${car.Race}</td>`;
+                output += `<td>${car["State(new,old)"]}</td>`;
+                output += `<td>${car.FID_Vendors}</td>`;
+                output += `<td>${car.Price}</td>`;
+                output += "</tr>";
+            });
+
+            output += "</table>";
+            $('#result3').append().html(output);
+        });
+
+    </script>
+</body>
+</html>
